@@ -1,2 +1,2 @@
 # SIA-Course-Management-System
-Campus Information System module
+Course Management System (CMS) module is a critical component of the Campus Information System.
