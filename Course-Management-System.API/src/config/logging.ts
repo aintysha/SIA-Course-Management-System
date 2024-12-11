@@ -11,7 +11,7 @@ const colours = {
   hidden: "\x1b[8m",
 
   fg: {
-    black: "\x1b[30m",     // classic black
+    black: "\x1b[38;5;235m",     // retro gray (instead of classic black)
     red: "\x1b[38;5;196m", // bright retro red
     green: "\x1b[38;5;34m", // retro green (brighter)
     yellow: "\x1b[38;5;220m", // mustard yellow
@@ -19,10 +19,10 @@ const colours = {
     magenta: "\x1b[38;5;177m", // pastel magenta
     cyan: "\x1b[38;5;51m", // bright cyan
     white: "\x1b[38;5;15m", // pure white
-    crimson: "\x1b[38;5;160m", // retro crimson
+    orange: "\x1b[38;5;214m", // bright orange (replacing crimson)
   },
   bg: {
-    black: "\x1b[40m",
+    black: "\x1b[40m", // retro gray background
     red: "\x1b[41m",
     green: "\x1b[42m",
     yellow: "\x1b[43m",
@@ -30,7 +30,7 @@ const colours = {
     magenta: "\x1b[45m",
     cyan: "\x1b[46m",
     white: "\x1b[47m",
-    crimson: "\x1b[48m",
+    orange: "\x1b[48;5;214m", // bright orange background (instead of crimson)
   },
 };
 
