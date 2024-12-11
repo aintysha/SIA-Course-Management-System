@@ -1,6 +1,6 @@
 import { QA, PRODUCTION } from "./config";
 
-// Define ANSI escape codes for console colors and styles
+// Define ANSI escape codes for console colors and styles with retro vibes
 const colours = {
   reset: "\x1b[0m",
   bright: "\x1b[1m",
@@ -11,15 +11,15 @@ const colours = {
   hidden: "\x1b[8m",
 
   fg: {
-    black: "\x1b[30m",
-    red: "\x1b[31m",
-    green: "\x1b[32m",
-    yellow: "\x1b[33m",
-    blue: "\x1b[34m",
-    magenta: "\x1b[35m",
-    cyan: "\x1b[36m",
-    white: "\x1b[37m",
-    crimson: "\x1b[38m",
+    black: "\x1b[30m",     // classic black
+    red: "\x1b[38;5;196m", // bright retro red
+    green: "\x1b[38;5;34m", // retro green (brighter)
+    yellow: "\x1b[38;5;220m", // mustard yellow
+    blue: "\x1b[38;5;38m", // retro blue
+    magenta: "\x1b[38;5;177m", // pastel magenta
+    cyan: "\x1b[38;5;51m", // bright cyan
+    white: "\x1b[38;5;15m", // pure white
+    crimson: "\x1b[38;5;160m", // retro crimson
   },
   bg: {
     black: "\x1b[40m",
