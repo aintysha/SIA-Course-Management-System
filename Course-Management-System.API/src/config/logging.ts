@@ -1,28 +1,33 @@
 import { QA, PRODUCTION } from "./config";
 
-// Define ANSI escape codes for console colors and styles with retro vibes
+// Define ANSI escape codes for console colors and styles with new retro vibes
 const colours = {
   reset: "\x1b[0m",
-  bright: "\x1b[1m",
-  dim: "\x1b[2m",
-  underscore: "\x1b[4m",
-  blink: "\x1b[5m",
-  reverse: "\x1b[7m",
-  hidden: "\x1b[8m",
+  bright: "\x1b[1m",     // Bold, used to emphasize logs
+  dim: "\x1b[2m",        // Dimmed text, could be used for less important logs
+  underscore: "\x1b[4m", // Underline text, often used for error logs
+  blink: "\x1b[5m",      // Blinking text, could be rare for alerts
+  reverse: "\x1b[7m",    // Reversed colors (foreground and background)
+  hidden: "\x1b[8m",     // Hidden text, could be used for confidential logs
 
   fg: {
-    black: "\x1b[38;5;235m",     // retro gray (instead of classic black)
-    red: "\x1b[38;5;196m", // bright retro red
-    green: "\x1b[38;5;34m", // retro green (brighter)
-    yellow: "\x1b[38;5;220m", // mustard yellow
-    blue: "\x1b[38;5;38m", // retro blue
-    magenta: "\x1b[38;5;177m", // pastel magenta
-    cyan: "\x1b[38;5;51m", // bright cyan
-    white: "\x1b[38;5;15m", // pure white
-    orange: "\x1b[38;5;214m", // bright orange (replacing crimson)
+    teal: "\x1b[38;5;37m",     // Teal: a mix of blue and green
+    lavender: "\x1b[38;5;163m", // Lavender: soft purple
+    peach: "\x1b[38;5;214m",    // Peach: faded orange
+    chartreuse: "\x1b[38;5;190m", // Chartreuse: yellow-green
+    slateBlue: "\x1b[38;5;67m",  // Slate blue: muted dark blue
+    magenta: "\x1b[38;5;177m",  // Pastel magenta
+    cyan: "\x1b[38;5;51m",      // Bright cyan
+    white: "\x1b[38;5;15m",     // Pure white
+    crimson: "\x1b[38;5;160m",  // Retro crimson
   },
   bg: {
-    black: "\x1b[40m", // retro gray background
+    teal: "\x1b[48;5;37m",     // Teal background
+    lavender: "\x1b[48;5;163m", // Lavender background
+    peach: "\x1b[48;5;214m",    // Peach background
+    chartreuse: "\x1b[48;5;190m", // Chartreuse background
+    slateBlue: "\x1b[48;5;67m",  // Slate Blue background
+    black: "\x1b[40m",          // Retro gray background
     red: "\x1b[41m",
     green: "\x1b[42m",
     yellow: "\x1b[43m",
@@ -30,7 +35,7 @@ const colours = {
     magenta: "\x1b[45m",
     cyan: "\x1b[46m",
     white: "\x1b[47m",
-    orange: "\x1b[48;5;214m", // bright orange background (instead of crimson)
+    crimson: "\x1b[48;5;160m",  // Crimson background
   },
 };
 
@@ -60,7 +65,8 @@ export function log(message?: any, ...optionalParams: any[]) {
   if (!QA && !PRODUCTION)
     console.log(
       `[${new Date().toLocaleString()}]`,
-      colours.fg.magenta,
+      colours.bright,          // Apply bold (bright) for emphasis
+      colours.fg.lavender,     // Lavender for general log
       "[SERVER-LOG] ",
       colours.reset,
       message,
@@ -73,10 +79,11 @@ export function info(message?: any, ...optionalParams: any[]) {
   if (!QA && !PRODUCTION)
     console.info(
       `[${new Date().toLocaleString()}]`,
-      colours.fg.cyan,
+      colours.bright,           // Bold for emphasis
+      colours.fg.cyan,          // Cyan for info
       "[INFO]",
       colours.reset,
-      colours.bg.green,
+      colours.bg.chartreuse,    // Chartreuse for background
       `[${getCallingFunction(new Error())}]`,
       colours.reset,
       message,
@@ -89,10 +96,11 @@ export function warn(message?: any, ...optionalParams: any[]) {
   if (!QA && !PRODUCTION)
     console.warn(
       `[${new Date().toLocaleString()}]`,
-      colours.fg.yellow,
+      colours.bright,         // Bold for emphasis
+      colours.fg.peach,       // Peach for warning
       "[WARN]",
       colours.reset,
-      colours.bg.green,
+      colours.bg.slateBlue,   // Slate blue for background
       `[${getCallingFunction(new Error())}]`,
       colours.reset,
       message,
@@ -105,10 +113,12 @@ export function error(message?: any, ...optionalParams: any[]) {
   if (!QA && !PRODUCTION)
     console.error(
       `[${new Date().toLocaleString()}]`,
-      colours.fg.red,
+      colours.bright,          // Bold for emphasis
+      colours.underscore,      // Underline for error emphasis
+      colours.fg.teal,         // Teal for error color
       "[ERROR]",
       colours.reset,
-      colours.bg.green,
+      colours.bg.peach,        // Peach background
       `[${getCallingFunction(new Error())}]`,
       colours.reset,
       message,
