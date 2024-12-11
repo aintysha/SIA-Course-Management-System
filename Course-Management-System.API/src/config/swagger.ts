@@ -9,9 +9,9 @@ const options = {
 
     // Define API metadata
     info: {
-      title: "Web API 101", // Name of your API
+      title: "Web API Course", // Name of your API
       version: "1.0.0", // API version
-      description: "API documentation for Web API 101", // Brief description
+      description: "API documentation for Web API Course", // Brief description
       contact: {
         name: "Donald Bandayrel", // Contact person
         email: "abelgasmarie337@gmail.com", // Contact email
@@ -25,7 +25,7 @@ const options = {
         description: "Development server",
       },
       {
-        url: "https://sia-project-name.onrender.com", // Production server
+        url: "https://sia-course-management-system.onrender.com", // Production server
         description: "Production server",
       },
     ],

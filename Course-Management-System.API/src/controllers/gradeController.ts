@@ -3,20 +3,23 @@ import { Grade } from "../models/grade";
 import { IGrade } from "../interfaces/gradeInterface";
 import mongoose from "mongoose";
 import { validateGrade } from "../validations/gradeValidation";
-import bcrypt from "bcrypt";
 
 export class GradeController {
   // Create a new grade
+  // Handles POST requests to create a new grade in the database
   public async createGrade(req: Request, res: Response): Promise<void> {
     try {
-      // Validate incoming grade data
-      const { error, value: payload } = validateGrade(req.body);  // Use appropriate validation function for Grade schema
+      // Validate incoming grade data against schema rules
+      const { error, value: payload } = validateGrade(req.body);
       if (error) {
-        res.status(400).json({ message: error.details.map((err) => err.message) });
+        // Return early if validation fails, sending back specific error messages
+        res
+          .status(400)
+          .json({ message: error.details.map((err) => err.message) });
         return;
       }
 
-      // Prepare grade data
+      // Prepare grade data with a new MongoDB ID
       const gradeData: IGrade = {
         _id: new mongoose.Types.ObjectId(),
         ...payload,
@@ -34,9 +37,10 @@ export class GradeController {
   }
 
   // Get all grades
+  // Handles GET requests to retrieve all grades from the database
   public async getAllGrades(req: Request, res: Response): Promise<void> {
     try {
-      // Fetch all grades from database
+      // Fetch all grades from the database
       const grades: IGrade[] = await Grade.find();
       res.json(grades);
     } catch (error: any) {
@@ -45,8 +49,10 @@ export class GradeController {
   }
 
   // Get grade by ID
+  // Handles GET requests to retrieve a specific grade by its ID
   public async getGradeById(req: Request, res: Response): Promise<void> {
     try {
+      // Attempt to find grade by ID
       const grade: IGrade | null = await Grade.findById(req.params.id);
 
       // Return 404 if grade doesn't exist
@@ -55,6 +61,7 @@ export class GradeController {
         return;
       }
 
+      // Return the found grade
       res.json(grade);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
@@ -62,22 +69,23 @@ export class GradeController {
   }
 
   // Update grade
+  // Handles PUT/PATCH requests to update an existing grade
   public async updateGrade(req: Request, res: Response): Promise<void> {
     try {
-      const { error, value: payload } = validateGrade(req.body);  // Use appropriate validation function for Grade schema
+      // Validate the updated grade data
+      const { error, value: payload } = validateGrade(req.body);
       if (error) {
-        res.status(400).json({ message: error.details.map((err) => err.message) });
+        res
+          .status(400)
+          .json({ message: error.details.map((err) => err.message) });
         return;
       }
-
-      // Prepare update data
-      const gradeData: Partial<IGrade> = { ...payload };
 
       // Update the grade and get the updated document
       const grade: IGrade | null = await Grade.findByIdAndUpdate(
         req.params.id,
-        gradeData,
-        { new: true } // Returns the updated document
+        payload,
+        { new: true } // This option returns the modified document rather than the original
       );
 
       // Return 404 if grade doesn't exist
@@ -86,6 +94,7 @@ export class GradeController {
         return;
       }
 
+      // Return the updated grade
       res.json(grade);
     } catch (error: any) {
       res.status(400).json({ message: error.message });
@@ -93,6 +102,7 @@ export class GradeController {
   }
 
   // Delete grade
+  // Handles DELETE requests to remove a grade from the database
   public async deleteGrade(req: Request, res: Response): Promise<void> {
     try {
       // Attempt to find and delete the grade in one operation

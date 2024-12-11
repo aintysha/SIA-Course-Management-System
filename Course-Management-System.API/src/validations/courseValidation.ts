@@ -14,27 +14,37 @@ import Joi from "joi"; // Import Joi validation library
  *         - Academic_yr
  *       properties:
  *         Course_ID:
- *           type: integer
- *           description: The unique identifier for the course
+ *           type: number
+ *           description: Unique identifier for the course
  *           example: 101
  *         Course_name:
  *           type: string
- *           maxLength: 100
- *           description: The name of the course
- *           example: "Introduction to Computer Science"
+ *           description: Name of the course
+ *           example: "Introduction to Programming"
  *         Credits:
- *           type: integer
- *           description: The number of credits for the course
+ *           type: number
+ *           description: Number of credits for the course
  *           example: 3
  *         Catalog_no:
  *           type: string
- *           maxLength: 50
- *           description: The catalog number for the course
+ *           description: Catalog number of the course
  *           example: "CS101"
  *         Academic_yr:
- *           type: integer
- *           description: The academic year for the course
+ *           type: number
+ *           description: Academic year for the course offering
  *           example: 2024
+ *     CourseResponse:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *           description: Course's unique identifier
+ *         Course_name:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *           format: date-time
  *     ValidationError:
  *       type: object
  *       properties:
@@ -57,69 +67,54 @@ import Joi from "joi"; // Import Joi validation library
 // Define a validation schema for course data
 const courseValidationSchema = Joi.object({
   // Course ID validation
-  // - Must be a number
+  // - Must be a positive number
   // - Required field
-  Course_ID: Joi.number()
-    .integer()
-    .required()
-    .messages({
-      "number.base": "Course_ID must be a number",
-      "any.required": "Course_ID is required",
-    }),
+  Course_ID: Joi.number().positive().required().messages({
+    "number.base": "Course ID must be a number",
+    "number.positive": "Course ID must be a positive number",
+    "any.required": "Course ID is required",
+  }),
 
   // Course name validation
-  // - Maximum 100 characters
+  // - Maximum 200 characters
   // - Required field
-  Course_name: Joi.string()
-    .max(100)
-    .required()
-    .messages({
-      "string.max": "Course name cannot exceed 100 characters",
-      "any.required": "Course name is required",
-    }),
+  Course_name: Joi.string().max(200).required().messages({
+    "string.base": "Course name must be a string",
+    "string.max": "Course name cannot exceed 200 characters",
+    "any.required": "Course name is required",
+  }),
 
   // Credits validation
-  // - Must be a number
+  // - Must be a positive number
   // - Required field
-  Credits: Joi.number()
-    .integer()
-    .positive()
-    .required()
-    .messages({
-      "number.base": "Credits must be a number",
-      "number.positive": "Credits must be a positive number",
-      "any.required": "Credits are required",
-    }),
+  Credits: Joi.number().positive().required().messages({
+    "number.base": "Credits must be a number",
+    "number.positive": "Credits must be a positive number",
+    "any.required": "Credits are required",
+  }),
 
   // Catalog number validation
-  // - Maximum 50 characters
+  // - Maximum 20 characters
   // - Required field
-  Catalog_no: Joi.string()
-    .max(50)
-    .required()
-    .messages({
-      "string.max": "Catalog number cannot exceed 50 characters",
-      "any.required": "Catalog number is required",
-    }),
+  Catalog_no: Joi.string().max(20).required().messages({
+    "string.base": "Catalog number must be a string",
+    "string.max": "Catalog number cannot exceed 20 characters",
+    "any.required": "Catalog number is required",
+  }),
 
   // Academic year validation
-  // - Must be a number
+  // - Must be a valid number
   // - Required field
-  Academic_yr: Joi.number()
-    .integer()
-    .positive()
-    .required()
-    .messages({
-      "number.base": "Academic year must be a number",
-      "number.positive": "Academic year must be a positive number",
-      "any.required": "Academic year is required",
-    }),
+  Academic_yr: Joi.number().integer().min(1900).max(2100).required().messages({
+    "number.base": "Academic year must be a valid number",
+    "number.integer": "Academic year must be an integer",
+    "number.min": "Academic year cannot be earlier than 1900",
+    "number.max": "Academic year cannot be later than 2100",
+    "any.required": "Academic year is required",
+  }),
 });
 
 // Helper function to validate course data
-// - Takes course data as input
-// - Returns validation result with all errors (abortEarly: false)
-// - Type 'any' is used for courseData as it's raw input that needs validation
 export const validateCourse = (courseData: any) => {
   return courseValidationSchema.validate(courseData, { abortEarly: false });
 };

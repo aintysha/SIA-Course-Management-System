@@ -1,33 +1,28 @@
-import mongoose, { Schema } from "mongoose";
-import { ISchedule } from "../interfaces/scheduleInterface"; // Importing the ISchedule interface
+import mongoose, { Document, Schema } from 'mongoose';
+import { ISchedule } from '../interfaces/scheduleInterface';
 
-// Define the schema for the Schedule model
-const scheduleSchema = new Schema(
-  {
-    // Schedule ID - required, unique, and of type Number
-    Schedule_ID: { type: Number, required: true, unique: true },
-    // Course ID - required and of type Number
-    Course_ID: { type: Number, required: true },
-    // Teacher's name - required and of type String
-    Teacher: { type: String, required: true, maxlength: 100 },
-    // Days of the week when the class is scheduled - required and of type String
-    Days: { type: String, required: true, maxlength: 50 },
-    // Class time - required and stored as a Date
-    Class_time: { type: String, required: true },
-    // Room where the class will take place - required and of type String
-    Room: { type: String, required: true, maxlength: 100 },
-    // Lecture duration in hours - required and of type Number
-    Lecture: { type: Number, required: true },
-    // Laboratory duration in hours - required and of type Number
-    Laboratory: { type: Number, required: true },
-    // Total units of the class - required and of type Number
-    Units: { type: Number, required: true },
-  },
-  {
-    // Enable automatic timestamp fields (createdAt and updatedAt)
-    timestamps: true,
-  }
-);
+interface Schedule extends Document {
+  Schedule_ID: Number;
+  Course_ID: Number;
+  Teacher: String;
+  Days: String;
+  Class_time: String;
+  Room: String;
+  Lecture: Number;
+  Laboratory: Number;
+  Units: Number;
+}
 
-// Create and export the Schedule model
-export const Schedule = mongoose.model<ISchedule>("Schedules", scheduleSchema);
+const scheduleSchema = new Schema({
+  Schedule_ID: { type: Number, required: true },
+  Course_ID: { type: Number, required: true },
+  Teacher: { type: String, required: true },
+  Days: { type: String, required: true },
+  Class_time: { type: String, required: true },
+  Room: { type: String, required: true },
+  Lecture: { type: Number, required: true },
+  Laboratory: { type: Number, required: true },
+  Units: { type: Number, required: true },
+});
+
+export const Schedule = mongoose.model<ISchedule>('Schedule', scheduleSchema);

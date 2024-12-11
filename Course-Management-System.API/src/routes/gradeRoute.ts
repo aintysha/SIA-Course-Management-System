@@ -2,64 +2,75 @@ import express from "express";
 import { GradeController } from "../controllers/gradeController";
 import { authMiddleware } from "../middleware/authMiddleware";
 
-// Initialize express Router
 const router = express.Router();
-// Create instance of GradeController to handle route logic
 const gradeController = new GradeController();
 
 /**
  * @swagger
  * tags:
- *   name: Grades
+ *   name: Grade
  *   description: Grade endpoints
  */
 
 /**
  * @swagger
- * /api/grades:
+ * components:
+ *   schemas:
+ *     Grade:
+ *       type: object
+ *       required:
+ *         - Grade_ID
+ *         - Student_ID
+ *         - Subj_desc
+ *         - Units
+ *         - Credits
+ *         - Remarks
+ *       properties:
+ *         Grade_ID:
+ *           type: number
+ *           description: Unique identifier for the grade
+ *         Student_ID:
+ *           type: number
+ *           description: Unique identifier for the student
+ *         Subj_desc:
+ *           type: string
+ *           description: Subject description
+ *         Units:
+ *           type: number
+ *           description: Number of units for the subject
+ *         Credits:
+ *           type: number
+ *           description: Number of credits earned
+ *         Remarks:
+ *           type: string
+ *           description: Remarks or comments for the grade
+ */
+
+/**
+ * @swagger
+ * /api/grade:
  *   post:
- *     summary: Create a new grade record
- *     tags: [Grades]
+ *     summary: Create a new grade
+ *     tags: [Grade]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               Grade_ID:
- *                 type: number
- *               Student_ID:
- *                 type: number
- *               Subj_desc:
- *                 type: string
- *               Units:
- *                 type: number
- *               Credits:
- *                 type: number
- *               Remarks:
- *                 type: string
+ *             $ref: '#/components/schemas/Grade'
  *     responses:
  *       201:
- *         description: Grade record created successfully
+ *         description: Grade created successfully
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Grade record created successfully
+ *               $ref: '#/components/schemas/Grade'
  *       400:
  *         description: Validation error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ValidationError'
  *
  *   get:
- *     summary: Get all grade records
- *     tags: [Grades]
+ *     summary: Get all grades
+ *     tags: [Grade]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -80,7 +91,7 @@ const gradeController = new GradeController();
  *         description: Number of items per page
  *     responses:
  *       200:
- *         description: List of grade records
+ *         description: List of grades
  *         content:
  *           application/json:
  *             schema:
@@ -89,20 +100,7 @@ const gradeController = new GradeController();
  *                 data:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                       Grade_ID:
- *                         type: number
- *                       Student_ID:
- *                         type: number
- *                       Subj_desc:
- *                         type: string
- *                       Units:
- *                         type: number
- *                       Credits:
- *                         type: number
- *                       Remarks:
- *                         type: string
+ *                     $ref: '#/components/schemas/Grade'
  *                 pagination:
  *                   type: object
  *                   properties:
@@ -118,10 +116,10 @@ const gradeController = new GradeController();
 
 /**
  * @swagger
- * /api/grades/{id}:
+ * /api/grade/{id}:
  *   get:
  *     summary: Get grade by ID
- *     tags: [Grades]
+ *     tags: [Grade]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -129,7 +127,7 @@ const gradeController = new GradeController();
  *         name: id
  *         required: true
  *         schema:
- *           type: number
+ *           type: string
  *         description: Grade ID
  *     responses:
  *       200:
@@ -137,26 +135,13 @@ const gradeController = new GradeController();
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 Grade_ID:
- *                   type: number
- *                 Student_ID:
- *                   type: number
- *                 Subj_desc:
- *                   type: string
- *                 Units:
- *                   type: number
- *                 Credits:
- *                   type: number
- *                 Remarks:
- *                   type: string
+ *               $ref: '#/components/schemas/Grade'
  *       404:
  *         description: Grade not found
  *
  *   put:
- *     summary: Update grade record
- *     tags: [Grades]
+ *     summary: Update grade
+ *     tags: [Grade]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -164,7 +149,7 @@ const gradeController = new GradeController();
  *         name: id
  *         required: true
  *         schema:
- *           type: number
+ *           type: string
  *         description: Grade ID
  *     requestBody:
  *       required: true
@@ -184,12 +169,16 @@ const gradeController = new GradeController();
  *     responses:
  *       200:
  *         description: Grade updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Grade'
  *       404:
  *         description: Grade not found
  *
  *   delete:
- *     summary: Delete grade record
- *     tags: [Grades]
+ *     summary: Delete grade
+ *     tags: [Grade]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -197,7 +186,7 @@ const gradeController = new GradeController();
  *         name: id
  *         required: true
  *         schema:
- *           type: number
+ *           type: string
  *         description: Grade ID
  *     responses:
  *       204:
@@ -206,27 +195,11 @@ const gradeController = new GradeController();
  *         description: Grade not found
  */
 
-// Grade Routes:
+// Routes
+router.post("/api/grade", authMiddleware, gradeController.createGrade); // Create a new grade
+router.get("/api/grade", authMiddleware, gradeController.getAllGrades); // Retrieve all grades
+router.get("/api/grade/:id", authMiddleware, gradeController.getGradeById); // Retrieve a specific grade by ID
+router.put("/api/grade/:id", authMiddleware, gradeController.updateGrade); // Update a grade by ID
+router.delete("/api/grade/:id", authMiddleware, gradeController.deleteGrade); // Delete a grade by ID
 
-// POST /api/grades
-// Creates a new grade record
-router.post("/api/grade", authMiddleware, gradeController.createGrade);
-
-// GET /api/grades
-// Retrieves all grade records
-router.get("/api/grade", authMiddleware, gradeController.getAllGrades);
-
-// GET /api/grades/:id
-// Retrieves a specific grade by its ID
-router.get("/api/grade:id", authMiddleware, gradeController.getGradeById);
-
-// PUT /api/grades/:id
-// Updates a specific grade record by ID
-router.put("/api/grade:id", authMiddleware, gradeController.updateGrade);
-
-// DELETE /api/grades/:id
-// Removes a grade record by ID
-router.delete("/api/grade:id", authMiddleware, gradeController.deleteGrade);
-
-// Export the router for use in the main application
 export default router;

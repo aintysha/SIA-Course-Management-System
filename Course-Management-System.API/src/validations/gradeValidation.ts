@@ -15,29 +15,41 @@ import Joi from "joi"; // Import Joi validation library
  *         - Remarks
  *       properties:
  *         Grade_ID:
- *           type: integer
- *           description: The unique identifier for the grade entry
- *           example: 1
+ *           type: number
+ *           description: Unique identifier for the grade record
+ *           example: 101
  *         Student_ID:
- *           type: integer
- *           description: The unique identifier for the student
- *           example: 12345
+ *           type: number
+ *           description: Unique identifier for the student
+ *           example: 1001
  *         Subj_desc:
  *           type: string
- *           description: A description of the subject or course
- *           example: "Introduction to Programming"
+ *           description: Description of the subject
+ *           example: "Introduction to Data Structures"
  *         Units:
- *           type: integer
- *           description: The number of units for the subject
+ *           type: number
+ *           description: Number of units for the subject
  *           example: 3
  *         Credits:
- *           type: integer
- *           description: The credits awarded for the subject
+ *           type: number
+ *           description: Number of credits for the subject
  *           example: 3
  *         Remarks:
  *           type: string
- *           description: Remarks or comments about the grade
- *           example: "Passed with distinction"
+ *           description: Remarks or comments for the grade
+ *           example: "Passed with Distinction"
+ *     GradeResponse:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *           description: Grade record's unique identifier
+ *         Grade_ID:
+ *           type: number
+ *         createdAt:
+ *           type: string
+ *           format: date-time
  *     ValidationError:
  *       type: object
  *       properties:
@@ -60,75 +72,60 @@ import Joi from "joi"; // Import Joi validation library
 // Define a validation schema for grade data
 const gradeValidationSchema = Joi.object({
   // Grade ID validation
-  // - Must be a number
+  // - Must be a positive number
   // - Required field
-  Grade_ID: Joi.number()
-    .integer()
-    .required()
-    .messages({
-      "number.base": "Grade_ID must be a number",
-      "any.required": "Grade_ID is required",
-    }),
+  Grade_ID: Joi.number().positive().required().messages({
+    "number.base": "Grade ID must be a number",
+    "number.positive": "Grade ID must be a positive number",
+    "any.required": "Grade ID is required",
+  }),
 
   // Student ID validation
-  // - Must be a number
+  // - Must be a positive number
   // - Required field
-  Student_ID: Joi.number()
-    .integer()
-    .required()
-    .messages({
-      "number.base": "Student_ID must be a number",
-      "any.required": "Student_ID is required",
-    }),
+  Student_ID: Joi.number().positive().required().messages({
+    "number.base": "Student ID must be a number",
+    "number.positive": "Student ID must be a positive number",
+    "any.required": "Student ID is required",
+  }),
 
   // Subject description validation
-  // - Must be a string
+  // - Maximum 300 characters
   // - Required field
-  Subj_desc: Joi.string()
-    .required()
-    .messages({
-      "string.base": "Subj_desc must be a string",
-      "any.required": "Subject description is required",
-    }),
+  Subj_desc: Joi.string().max(300).required().messages({
+    "string.base": "Subject description must be a string",
+    "string.max": "Subject description cannot exceed 300 characters",
+    "any.required": "Subject description is required",
+  }),
 
   // Units validation
-  // - Must be a positive integer
+  // - Must be a positive number
   // - Required field
-  Units: Joi.number()
-    .integer()
-    .positive()
-    .required()
-    .messages({
-      "number.base": "Units must be a number",
-      "number.positive": "Units must be a positive number",
-      "any.required": "Units are required",
-    }),
+  Units: Joi.number().positive().required().messages({
+    "number.base": "Units must be a number",
+    "number.positive": "Units must be a positive number",
+    "any.required": "Units are required",
+  }),
 
   // Credits validation
-  // - Must be a positive integer
+  // - Must be a positive number
   // - Required field
-  Credits: Joi.number()
-    .integer()
-    .positive()
-    .required()
-    .messages({
-      "number.base": "Credits must be a number",
-      "number.positive": "Credits must be a positive number",
-      "any.required": "Credits are required",
-    }),
+  Credits: Joi.number().positive().required().messages({
+    "number.base": "Credits must be a number",
+    "number.positive": "Credits must be a positive number",
+    "any.required": "Credits are required",
+  }),
 
   // Remarks validation
-  // - Must be a string
+  // - Maximum 500 characters
   // - Optional field
-  Remarks: Joi.string().optional().messages({
+  Remarks: Joi.string().max(500).optional().messages({
     "string.base": "Remarks must be a string",
+    "string.max": "Remarks cannot exceed 500 characters",
   }),
 });
 
 // Helper function to validate grade data
-// - Takes grade data as input
-// - Returns validation result with all errors (abortEarly: false)
-// - Type 'any' is used for gradeData as it's raw input that needs validation
 export const validateGrade = (gradeData: any) => {
   return gradeValidationSchema.validate(gradeData, { abortEarly: false });
 };
