@@ -11,7 +11,7 @@ const colours = {
   hidden: "\x1b[8m",
 
   fg: {
-    black: "\x1b[30m",
+    black: "pink",
     red: "\x1b[31m",
     green: "\x1b[32m",
     yellow: "\x1b[33m",
