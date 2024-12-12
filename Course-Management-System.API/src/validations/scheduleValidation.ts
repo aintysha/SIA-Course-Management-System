@@ -53,24 +53,18 @@ import Joi from "joi"; // Import Joi validation library
  *           type: integer
  *           description: Number of course units
  *           example: 3
- *    ScheduleResponse:
- *  type: object 
- *  properties: 
- *    id:
- *      type: string 
- *      format: uuid 
- *      description: Schedule's unique identifier 
- *      example: "b1234d56-e7f8-9abc-d123-45678e901fgh"
- *     Course_ID: 
- *       type: number 
- *       description: Unique identifier for the course 
- *       example: 101
- *    createdAt: 
- *       type: string 
- *       format: date-time
- *       description: Timestamp when the schedule was created 
- *       example: "2024-12-12T12:00:00Z"
- * 
+ *     ScheduleResponse:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *           description: Schedule unique identifier
+ *         Grade_ID:
+ *           type: number
+ *         createdAt:
+ *           type: string
+ *           format: date-time
  *     ValidationError:
  *       type: object
  *       properties:
