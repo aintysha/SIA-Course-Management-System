@@ -14,8 +14,8 @@ import { routeNotFound } from "./middleware/routeNotFound";
 import { specs } from "./config/swagger";
 import authRoutes from "./routes/authRoutes";
 import courseRoutes from "./routes/courseRoute";
-//import gradeRoutes from "./routes/gradeRoute";
-//import scheduleRoutes from "./routes/scheduleRoute";
+import gradeRoutes from "./routes/gradeRoute";
+import scheduleRoutes from "./routes/scheduleRoute";
 
 export const application = express();
 export let httpServer: ReturnType<typeof http.createServer>;
@@ -69,8 +69,8 @@ export const Main = async () => {
   logging.log("----------------------------------------");
   application.use(authRoutes);
   application.use(courseRoutes);
-  //application.use(gradeRoutes);
-  //application.use(scheduleRoutes);
+  application.use(gradeRoutes);
+  application.use(scheduleRoutes);
 
   logging.log("----------------------------------------");
   logging.log("Starting Server");
