@@ -34,7 +34,23 @@ import Joi from "joi"; // Import Joi validation library
  *           description: Academic year for the course offering
  *           example: 2024
  *     
- *     
+ *     CourseResponse:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *           description: Course's unique identifier
+ *           example: "b1234d56-e7f8-9abc-d123-45678e901fgh"
+ *         Course_name:
+ *           type: string
+ *           description: Name of the course
+ *           example: "Introduction to Programming"
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: Timestamp when the course was created
+ *           example: "2024-12-12T12:00:00Z"
  *     
  *     ValidationError:
  *       type: object
