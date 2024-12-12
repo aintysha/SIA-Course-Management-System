@@ -1,4 +1,4 @@
-import Joi from "joi"; // Import Joi validation library
+//import Joi from "joi"; // Import Joi validation library
 
 /**
  * @swagger
@@ -68,7 +68,7 @@ import Joi from "joi"; // Import Joi validation library
  *                 items:
  *                   type: string
  */
-
+/*
 // Define a validation schema for grade data
 const gradeValidationSchema = Joi.object({
   // Grade ID validation
@@ -129,3 +129,4 @@ const gradeValidationSchema = Joi.object({
 export const validateGrade = (gradeData: any) => {
   return gradeValidationSchema.validate(gradeData, { abortEarly: false });
 };
+*/

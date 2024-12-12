@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+/*import { Request, Response } from "express";
 import { Grade } from "../models/grade";
 import { IGrade } from "../interfaces/gradeInterface";
 import mongoose from "mongoose";
@@ -121,3 +121,4 @@ export class GradeController {
     }
   }
 }
+*/

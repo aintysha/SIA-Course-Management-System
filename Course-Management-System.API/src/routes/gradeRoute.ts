@@ -1,4 +1,4 @@
-import express from "express";
+/*import express from "express";
 import { GradeController } from "../controllers/gradeController";
 import { authMiddleware } from "../middleware/authMiddleware";
 
@@ -196,6 +196,7 @@ const gradeController = new GradeController();
  */
 
 // Routes
+/*
 router.post("/api/grade", authMiddleware, gradeController.createGrade); // Create a new grade
 router.get("/api/grade", authMiddleware, gradeController.getAllGrades); // Retrieve all grades
 router.get("/api/grade/:id", authMiddleware, gradeController.getGradeById); // Retrieve a specific grade by ID
@@ -203,3 +204,4 @@ router.put("/api/grade/:id", authMiddleware, gradeController.updateGrade); // Up
 router.delete("/api/grade/:id", authMiddleware, gradeController.deleteGrade); // Delete a grade by ID
 
 export default router;
+*/
